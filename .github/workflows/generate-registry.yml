@@ -56,12 +56,11 @@ jobs:
           # GITHUB_TOKEN's default ref is the merge commit; explicitly
           # check out main so the push at the end targets it.
           ref: main
-          # Admin-scoped PAT so the post-commit push bypasses the
-          # main-branch ruleset (default GITHUB_TOKEN cannot bypass).
-          token: ${{ secrets.ADMIN_PUSH_PAT }}
+          # This fork uses the workflow's contents:write GITHUB_TOKEN rather
+          # than upstream's private ADMIN_PUSH_PAT.
       - uses: actions/setup-go@v6
         with:
-          go-version: '1.26.3'
+          go-version-file: .go-version
       - name: Run generator
         run: go run ./tools/generate-registry/main.go
       - name: Commit if changed
