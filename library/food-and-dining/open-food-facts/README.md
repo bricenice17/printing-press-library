@@ -21,7 +21,7 @@ export OPEN_FOOD_FACTS_CONTACT_EMAIL="YOUR_EMAIL"
 Install this customized build directly from Mike's repository:
 
 ```bash
-go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@feature/open-food-facts-store-filter
+go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@main
 ```
 
 ## Store-aware searches
