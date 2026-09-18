@@ -40,6 +40,8 @@ jobs:
         id: verify
         env:
           BASE_REF: ${{ github.base_ref }}
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
         run: |
           set +e
           VERIFIER=".github/scripts/verify-skill/verify_skill.py"
@@ -73,26 +75,25 @@ jobs:
           }
 
           FULL_SCAN=0
-          if [ -z "$BASE_REF" ]; then
-            FULL_SCAN=1
-          fi
+          changed_files=()
 
-          if [ "$FULL_SCAN" -eq 0 ]; then
+          if [ -n "$BASE_REF" ]; then
             if git rev-parse --verify "origin/$BASE_REF" >/dev/null 2>&1; then
               mapfile -t changed_files < <(git diff --name-only "origin/$BASE_REF"...HEAD)
             else
               echo "::warning::Could not find origin/$BASE_REF; running full SKILL verification."
               FULL_SCAN=1
-              changed_files=()
             fi
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            mapfile -t changed_files < <(git diff --name-only "$BEFORE_SHA" HEAD)
           else
-            changed_files=()
+            FULL_SCAN=1
           fi
 
           declare -A target_dirs=()
           for file in "${changed_files[@]}"; do
             case "$file" in
-              .github/workflows/verify-skills.yml|.github/scripts/verify-skill/*)
+              .github/scripts/verify-skill/*)
                 FULL_SCAN=1
                 ;;
               library/*/*/SKILL.md|library/*/*/internal/cli/*)
