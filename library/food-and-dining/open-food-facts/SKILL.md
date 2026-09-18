@@ -21,16 +21,32 @@ metadata:
 Use this skill when an agent needs Open Food Facts data for packaged-food
 research, food-profile evaluation, barcode lookup, or retailer-aware product discovery.
 
-## Install
+## Install in Hermes
+
+Install the customized binary from Mike's fork through the Printing Press installer:
 
 ```bash
-go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@main
+npx -y @mvanhorn/printing-press-library install open-food-facts --cli-only \
+  --registry-url https://raw.githubusercontent.com/bricenice17/printing-press-library/main/registry.json
+```
+
+Install this fork's focused skill into Hermes:
+
+```bash
+hermes skills install bricenice17/printing-press-library/cli-skills/pp-open-food-facts --force
 ```
 
 Verify:
 
 ```bash
 open-food-facts-pp-cli --version
+open-food-facts-pp-cli doctor --agent
+```
+
+Direct Go fallback:
+
+```bash
+go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@latest
 ```
 
 No API key is required for read operations.
