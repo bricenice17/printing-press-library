@@ -18,10 +18,32 @@ export OPEN_FOOD_FACTS_USER_AGENT="mike-food-intelligence/0.1"
 export OPEN_FOOD_FACTS_CONTACT_EMAIL="YOUR_EMAIL"
 ```
 
-Install this customized build directly from Mike's repository:
+## Install in Hermes
+
+Install the customized binary from Mike's Printing Press catalog:
 
 ```bash
-go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@main
+npx -y @mvanhorn/printing-press-library install open-food-facts --cli-only \
+  --registry-url https://raw.githubusercontent.com/bricenice17/printing-press-library/main/registry.json
+```
+
+Then install the matching focused skill from this fork:
+
+```bash
+hermes skills install bricenice17/printing-press-library/cli-skills/pp-open-food-facts --force
+```
+
+Verify:
+
+```bash
+open-food-facts-pp-cli --version
+open-food-facts-pp-cli doctor --agent
+```
+
+Direct Go fallback:
+
+```bash
+go install github.com/bricenice17/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli@latest
 ```
 
 ## Store-aware searches
